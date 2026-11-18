@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "PLETHORA // ZERO Auto-Tagger",
+  "version": "1.0",
+  "description": "Quietly routes retail commissions to household relief when you shop.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["activeTab"]
+}
