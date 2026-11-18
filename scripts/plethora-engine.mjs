@@ -3,7 +3,6 @@
  * Generates high-intent evergreen and seasonal markdown articles for Cloudflare Pages.
  */
 
-import fs.fsyncSync; // or native fs/promises
 import fs from 'fs';
 import path from 'path';
 
