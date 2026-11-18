@@ -23,7 +23,6 @@
       --ink-body: #334155;
       --ink-muted: #64748b;
       --border-hairline: #e2e8f0;
-      --emerald-live: #10b981;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -112,6 +111,7 @@
       padding: 15px 24px; background: var(--brand-pink); color: #ffffff;
       border: none; border-radius: 10px; font-size: 15px; font-weight: 800; cursor: pointer;
       box-shadow: 0 4px 14px rgba(193, 6, 213, 0.3); transition: background 0.2s;
+      text-decoration: none; display: inline-block; text-align: center;
     }
     .launch-btn:hover { background: var(--brand-pink-dark); }
     .quick-cats { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; font-size: 12px; color: var(--ink-muted); }
@@ -166,10 +166,29 @@
     .digest-btn { padding: 11px 18px; background: var(--ink-dark); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; margin-top: 20px; }
     .info-card { background: #fff; border: 1px solid var(--border-hairline); border-radius: 14px; padding: 26px; }
     .info-card h3 { font-size: 20px; margin-bottom: 10px; color: var(--ink-dark); }
     .info-card p { font-size: 14.5px; color: var(--ink-body); margin-bottom: 16px; }
+    .form-stack { display: flex; flex-direction: column; gap: 12px; }
+    .form-input {
+      width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 14px; background: var(--bg-alabaster); color: var(--ink-dark);
+    }
+    .form-input:focus { outline: none; border-color: var(--brand-pink); background: #fff; }
+    .tier-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+    .tier-btn {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 13px 16px; border: 1.5px solid var(--brand-pink-border); border-radius: 10px;
+      background: var(--brand-pink-soft); color: var(--ink-dark); text-decoration: none;
+      font-weight: 700; font-size: 14px; transition: all 0.2s;
+    }
+    .tier-btn:hover { border-color: var(--brand-pink); background: #fff; transform: translateY(-1px); }
+    .tier-price { background: var(--brand-pink); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12.5px; font-weight: 800; }
+    .qty-note {
+      background: #f8fafc; border: 1px dashed #94a3b8; border-radius: 10px;
+      padding: 13px 15px; font-size: 13px; color: var(--ink-body); margin-bottom: 12px; line-height: 1.5;
+    }
     .modal-backdrop {
       position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72);
       display: none; place-items: center; z-index: 1000; padding: 16px;
@@ -211,7 +230,7 @@
       <div class="nav-tabs">
         <button class="nav-tab active" onclick="switchTab('shopTab', this)">1. ZERO Shopping Portal</button>
         <button class="nav-tab" onclick="switchTab('guidesTab', this)">2. Smart Shopping Guides</button>
-        <button class="nav-tab" onclick="switchTab('aboutTab', this)">3. Request Relief &amp; About</button>
+        <button class="nav-tab" onclick="switchTab('aboutTab', this)">3. Request Relief &amp; Back Pool</button>
         <button class="nav-tab" onclick="switchTab('cardTab', this)">4. Social Card Studio</button>
       </div>
     </header>
@@ -310,7 +329,7 @@
       </div>
     </section>
 
-    <!-- TAB 2: SMART SHOPPING GUIDES (SEO & AFFILIATE DIRECTORY) -->
+    <!-- TAB 2: SMART SHOPPING GUIDES -->
     <section id="guidesTab" class="tab-panel">
       <div class="hero">
         <span class="eyebrow">Curated Everyday Guides // #theworldhasplenty</span>
@@ -341,23 +360,54 @@
       </div>
     </section>
 
-    <!-- TAB 3: REQUEST RELIEF & ABOUT PLETHORA -->
+    <!-- TAB 3: REQUEST RELIEF & BACK THE POOL -->
     <section id="aboutTab" class="tab-panel">
       <div class="hero">
         <span class="eyebrow">Quiet &bull; Simple &bull; Dignified &bull; Intentional</span>
         <h1 class="serif">We do not rank need. We do not require proof.</h1>
-        <p>PLETHORA was founded on a simple observation: the world has plenty, and generosity should feel natural—not performative.</p>
+        <p>PLETHORA (#theworldhasplenty) was founded on a simple observation: the world has plenty, and generosity should feel natural—not performative.</p>
       </div>
+
       <div class="grid-2">
+        <!-- LEFT CARD: NORMALIZED ANTI-DUPLICATE RELIEF INTAKE -->
         <div class="info-card" style="border-top:4px solid var(--brand-pink);">
           <h3>Experiencing a Tight Month? Request Quiet Relief</h3>
-          <p>We do not ask for emotional essays, bank statements, or humiliating proof of hardship. When the ZERO pool reaches each micro-grant threshold, funds are sent quietly to individuals on the relief list.</p>
-          <a href="mailto:theworldhasplenty@gmail.com?subject=PLETHORA%20Quiet%20Relief%20Request&body=Name%3A%0ACity%2FCountry%3A%0APreferred%20Payout%20Method%20(e-Transfer%20%2F%20PayPal)%3A%0A" class="launch-btn" style="display:inline-block;text-decoration:none;">Submit a Quiet Relief Request &rarr;</a>
+          <p>We do not ask for emotional essays, bank statements, or proof of hardship. Enter your details once below to be placed in the automated monthly micro-grant draw pool. Duplicate entries are automatically merged.</p>
+          <form class="form-stack" onsubmit="submitReliefApplication(event)">
+            <input type="text" id="appName" class="form-input" required placeholder="Full Name">
+            <input type="email" id="appEmail" class="form-input" required placeholder="Email Address (for micro-grant claim link)">
+            <input type="tel" id="appPhone" class="form-input" required placeholder="Cellular Phone Number (e.g., +1 416-555-0199)">
+            <input type="text" id="appRegion" class="form-input" required placeholder="City &amp; Country (e.g., Toronto, Canada)">
+            <button type="submit" id="appSubmitBtn" class="launch-btn" style="width:100%;">Enter Quiet Relief Pool &rarr;</button>
+          </form>
         </div>
+
+        <!-- RIGHT CARD: RECURRING & ONE-TIME STRIPE POOL BACKING -->
         <div class="info-card" style="border-top:4px solid var(--ink-dark);">
           <h3>Accelerate the Relief Pool Directly</h3>
-          <p>Want to fund the relief pool directly without shopping? 100% of direct contributions go straight toward household micro-grants for people navigating a tight month.</p>
-          <a href="https://buy.stripe.com/28E14o186b6xdJO09kfjG08" id="directDonateLink" target="_blank" rel="noopener" class="launch-btn" style="display:inline-block;text-decoration:none;background:var(--ink-dark);">Contribute Any Amount via Stripe &rarr;</a>
+          <p>Want to build predictable monthly relief alongside your everyday shopping? Choose a monthly supporter tier or make a one-time contribution below:</p>
+
+          <div class="tier-stack">
+            <a href="https://buy.stripe.com/dRmcN59Ac9886ID5MO4sE00" target="_blank" rel="noopener" class="tier-btn">
+              <span>Quiet Monthly Backer</span>
+              <span class="tier-price">$5 / month &rarr;</span>
+            </a>
+            <a href="https://buy.stripe.com/4gMdR99Ac9883wrb784sE01" target="_blank" rel="noopener" class="tier-btn">
+              <span>Household Relief Sustainer</span>
+              <span class="tier-price">$10 / month &rarr;</span>
+            </a>
+            <a href="https://buy.stripe.com/00wfZh27Kbgg4Avejk4sE02" target="_blank" rel="noopener" class="tier-btn">
+              <span>Founding Pool Pillar</span>
+              <span class="tier-price">$20 / month &rarr;</span>
+            </a>
+          </div>
+
+          <div class="qty-note">
+            <strong>Prefer a One-Time Contribution of Any Amount?</strong><br>
+            Our one-time link is built in <strong>$5 units</strong>. On the Stripe checkout screen, simply increase the <strong>Quantity</strong> box to choose your exact amount <em>(e.g., Qty 2 = $10, Qty 5 = $25, Qty 10 = $50, Qty 20 = $100)</em>.
+          </div>
+
+          <a href="https://buy.stripe.com/9B6eVdcMo8441oj0su4sE03" target="_blank" rel="noopener" class="launch-btn" style="width:100%;background:var(--ink-dark);">Make a One-Time Contribution ($5 Units) &rarr;</a>
         </div>
       </div>
     </section>
@@ -415,6 +465,7 @@
     const AMAZON_TAG = 'preferredoutc-20';
     const EBAY_LINK = 'https://ebay.us/Gy9KfL';
     const ALI_LINK = 'https://s.click.aliexpress.com/e/_c4Ptg7xH';
+    const PLETHORA_WEBHOOK = 'https://hook.us2.make.com/rza1hdbpqwinr3lmqgimwf2h3cs9tw3o';
 
     const QUOTES = [
       "Most people want to help. They just don't have extra money at the end of the month.",
@@ -495,9 +546,31 @@
       e.preventDefault();
       const email = document.getElementById('ledgerEmail').value.trim();
       if (!email) return;
-      document.getElementById('ledgerBtn').textContent = '✓ Subscribed to Ledger';
-      document.getElementById('ledgerBtn').style.background = '#c106d5';
-      fetch('https://hook.us2.make.com/cyrvdqwkme5hjj26cjat8oz51jrk98jp?flow_type=FREE_LEAD&niche=PLETHORA&incident=plethora-zero&tier=TIER_3_POLL&region=GLOBAL&signer_name=PLETHORA_Supporter&loss_impact=Quiet_Ledger_Subscriber&email=' + encodeURIComponent(email), { mode: 'no-cors' });
+      const btn = document.getElementById('ledgerBtn');
+      btn.textContent = '✓ Joined Quiet Ledger';
+      btn.style.background = '#c106d5';
+      const url = PLETHORA_WEBHOOK + '?role=SUPPORTER&email=' + encodeURIComponent(email);
+      fetch(url, { mode: 'no-cors' });
+    }
+
+    function submitReliefApplication(e) {
+      e.preventDefault();
+      const name = document.getElementById('appName').value.trim();
+      const email = document.getElementById('appEmail').value.trim();
+      const phone = document.getElementById('appPhone').value.trim();
+      const region = document.getElementById('appRegion').value.trim();
+      if (!email || !name) return;
+      const btn = document.getElementById('appSubmitBtn');
+      btn.textContent = '✓ Registered in Quiet Relief Pool';
+      btn.style.background = '#0f172a';
+      btn.disabled = true;
+      const url = PLETHORA_WEBHOOK
+        + '?role=APPLICANT'
+        + '&name=' + encodeURIComponent(name)
+        + '&email=' + encodeURIComponent(email)
+        + '&phone=' + encodeURIComponent(phone)
+        + '&city_region=' + encodeURIComponent(region);
+      fetch(url, { mode: 'no-cors' });
     }
 
     function renderCanvasCard() {
@@ -505,7 +578,7 @@
       const ctx = c.getContext('2d');
       const bg = invertTheme ? '#c106d5' : '#FFFFFF';
       const fg = invertTheme ? '#FFFFFF' : '#c106d5';
-      const subFg = invertTheme ? 'rgba(255,255,255,0.85)' : '#0f172a';
+      const subFg = invertTheme ? 'rgba(255,255,255,0.88)' : '#0f172a';
 
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, 1080, 1080);
