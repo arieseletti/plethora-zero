@@ -1,0 +1,32 @@
+name: PLETHORA SEO Article Engine
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 14 * * 1' # Runs automatically every Monday at 14:00 UTC
+
+permissions:
+  contents: write
+
+jobs:
+  generate-articles:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run PLETHORA Article Engine
+        run: node scripts/plethora-engine.mjs
+
+      - name: Commit and push generated articles
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "PLETHORA Bot"
+          git add .
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-publish PLETHORA SEO articles" && git push)
